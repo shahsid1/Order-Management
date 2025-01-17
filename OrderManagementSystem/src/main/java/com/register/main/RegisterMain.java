@@ -24,9 +24,9 @@ public class RegisterMain {
 		System.out.println("________________________");
 		System.out.println("Enter Your Mobile Number");
 		Long mobileNumber = scan.nextLong();
+		scan.nextLine();
 		System.out.println("________________________");
 		System.out.println("Enter Your Resturant Name");
-		scan.nextLine();
 		String resturantName = scan.next();
 		System.out.println("________________________");
 
