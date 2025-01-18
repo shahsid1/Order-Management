@@ -19,11 +19,13 @@ public class TableCountImplementation implements TableCountDao{
 	private Connection con;
 	private String insertQuerry="insert into tablecount (tableNumber ,status) values(?,?)";
 	private String fetchStatusQuerry="select * from tablecount";
+	private String truncateQuerry="truncate table tablecount";
 	private PreparedStatement psmt;
 	private int status;
 	private Statement csmt;
 	private ResultSet result;
 	ArrayList<TableCountModel> tableList = new ArrayList<TableCountModel>();
+	private Object callstmt;
 
 	public TableCountImplementation() {
 		con = DatabaseConnection.connect();
@@ -66,5 +68,25 @@ public class TableCountImplementation implements TableCountDao{
 		
 		return tableList;
 	}
+
+	@Override
+	public int truncate() {
+		
+		try {
+			
+			csmt = con.createStatement();
+			status = csmt.executeUpdate(truncateQuerry);
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+		
+	}
+	
+	
 
 }

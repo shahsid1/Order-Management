@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 import com.login.daoimplementation.LoginImplementation;
 import com.login.model.LoginModel;
+import com.tablecount.main.TableCountMain;
 
 public class LoginMain {
 
-	public static void main(String[] args) {
+	public static void loginModel() {
 		
 		Scanner scan = new Scanner(System.in);
-		
 		
 		System.out.println("----------------Welcome for Login-------------");
 		System.out.println("Enter Your Mobile Number");
@@ -26,7 +26,10 @@ public class LoginMain {
 		String passwordFromDatabase = loginImplementation.fetchOnMobileNumber(loginModel);
 		
 		if(password.equals(passwordFromDatabase)) {
-			System.out.println(" ** Login Successfully **");
+			System.out.println(" ** Login Successfull **");
+			
+			
+			
 		}else {
 			System.out.println(" ** Wrong Mobile Number or Password");
 		}
