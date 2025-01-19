@@ -21,10 +21,10 @@ public class TableCountMain {
 
 		if(choose==1) {
 
-			System.out.println("1. Add tables to existing list \n2.Add new tables");
+			System.out.println("1.Add tables to existing list \n2.Add new tables");
 			int option = scan.nextInt();
 
-			if(option==1) {
+			if(option==1) {  
 				
 				System.out.println("Existing Tables are");
 				tableList = tableCountImplementation.fetchStatus();
@@ -32,6 +32,18 @@ public class TableCountMain {
 				
 				System.out.println();
 				
+				System.out.println("Enter the next Table Number");
+				int tableNumber = scan.nextInt();
+				
+				TableCountModel tableCountModel = new TableCountModel(tableNumber);
+				int status = tableCountImplementation.insertByTableNumber(tableCountModel);
+				
+				if(status==1) {
+					System.out.println("Success");
+				}
+				else{
+					System.out.println("failure");
+				}
 				
 			}
 			

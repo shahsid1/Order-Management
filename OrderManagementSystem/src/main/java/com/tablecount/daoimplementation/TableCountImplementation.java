@@ -13,19 +13,16 @@ import com.tablecount.model.TableCountModel;
 
 public class TableCountImplementation implements TableCountDao{
 
-	
-	
-	
 	private Connection con;
 	private String insertQuerry="insert into tablecount (tableNumber ,status) values(?,?)";
 	private String fetchStatusQuerry="select * from tablecount";
 	private String truncateQuerry="truncate table tablecount";
+	private String insertByTableNumberQuerry="insert into tablecount(tableNumber,status) values (?,'Unoccupied')";
 	private PreparedStatement psmt;
 	private int status;
 	private Statement csmt;
 	private ResultSet result;
 	ArrayList<TableCountModel> tableList = new ArrayList<TableCountModel>();
-	private Object callstmt;
 
 	public TableCountImplementation() {
 		con = DatabaseConnection.connect();
@@ -75,16 +72,27 @@ public class TableCountImplementation implements TableCountDao{
 		try {
 			
 			csmt = con.createStatement();
-			status = csmt.executeUpdate(truncateQuerry);
-			
-			
-			
+			status = csmt.executeUpdate(truncateQuerry);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return status;
 		
+	}
+
+	@Override
+	public int insertByTableNumber(TableCountModel tableCountModel) {
+		try {
+			psmt = con.prepareStatement(insertByTableNumberQuerry);
+			psmt.setInt(1,tableCountModel.getTableNumber());
+			
+			status=psmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return status;
 	}
 	
 	
