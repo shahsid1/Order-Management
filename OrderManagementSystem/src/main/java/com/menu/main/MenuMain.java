@@ -13,7 +13,8 @@ class Common{
 	static int displayCategory() {
 		System.out.println("Select the Category\n1.BreakFast \n2.Lunch \n3.Dinner");
 		int chooseCategory = scan.nextInt();
-		
+		scan.nextLine();
+
 		if(chooseCategory>3) {
 			System.out.println("Choose correct option");
 		}
@@ -84,6 +85,43 @@ class Common{
 		int option = scan.nextInt();
 		return option;
 	}
+
+	static MenuModel available(){
+		MenuModel menuModel=null;
+		System.out.println("Enter the name of the dish");
+		String name = scan.nextLine();
+		System.out.println("1.Available \n2.Unavailable");
+		int option=scan.nextInt();
+		if(option==1) {
+			menuModel = new MenuModel(name,"Available");
+		}else if(option==2){
+			menuModel = new MenuModel(name,"Unavailable");
+		}else {
+			System.out.println("Enter correct option");
+		}	
+		return menuModel;	
+	}
+	
+	static int availableStatus(int status){
+		if(status==1) {
+			System.out.println("Entered Successfully");
+		}else {
+			System.out.println("Something error occured please try after some time");
+			System.exit(0);
+		}
+		System.out.println("Want to update another dish? \n1.Yes \n2.No");
+		int option = scan.nextInt();
+		scan.nextLine();
+		return option;
+	}
+	
+	static void availableOption(int option){	
+		if(option==2) {
+			System.out.println("Thank You for updating the items.");
+		}else {
+			System.out.println("Choose correct option");
+		}
+	}
 }
 
 class BreakFast extends Common{
@@ -92,7 +130,7 @@ class BreakFast extends Common{
 		System.out.println("List of Breakfast Items");
 		ArrayList<MenuModel> breakfastList = menuImplementation.fetchBreakFast();
 		System.out.println(breakfastList);
-		
+
 	}
 
 	int insert() {
@@ -107,6 +145,14 @@ class BreakFast extends Common{
 		int status = menuImplementation.deleteBreakFast(menuModel);
 		int option = Common.deleteStatus(status);	
 		return option;
+	}
+
+
+	int availability(){
+			MenuModel menuModel = Common.available();
+			int status = menuImplementation.insertBreakFastAvailability(menuModel);
+			int option =Common.availableStatus(status);
+			return option;
 	}
 }
 
@@ -130,6 +176,13 @@ class Lunch extends Common{
 		int option = Common.deleteStatus(status);	
 		return option;
 	}
+	
+	int availability(){
+		MenuModel menuModel = Common.available();
+		int status = menuImplementation.insertLunchAvailability(menuModel);
+		int option =Common.availableStatus(status);
+		return option;
+	}
 }
 
 class Dinner extends Common{
@@ -151,7 +204,14 @@ class Dinner extends Common{
 		int status = menuImplementation.deleteDinner(menuModel);
 		int option = Common.deleteStatus(status);	
 		return option;
-	}	
+	}
+	
+	int availability(){
+		MenuModel menuModel = Common.available();
+		int status = menuImplementation.insertDinnerAvailability(menuModel);
+		int option =Common.availableStatus(status);
+		return option;
+	}
 }
 
 public class MenuMain {
@@ -163,7 +223,7 @@ public class MenuMain {
 		Lunch lunch = new Lunch();
 		Dinner dinner = new Dinner();
 
-		System.out.println("1.Show Menu \n2.Add Item \n3.Delete Item");
+		System.out.println("1.Show Menu \n2.Add Item \n3.Delete Item \n4.Availability");
 		int choose = scan.nextInt();
 
 		if(choose==1) {
@@ -231,7 +291,36 @@ public class MenuMain {
 			break;
 			}
 
-		}else {
+		}else if(choose==4) {
+			
+			int chooseCategory = Common.displayCategory();
+			scan.nextLine();
+			int option;
+			switch(chooseCategory) {
+			case 1:
+				do {
+					option = breakfast.availability();
+				}while(option==1);
+				Common.availableOption(option);
+				break;
+			case 2:
+				do {
+					option = lunch.availability();
+				}while(option==1);
+				Common.availableOption(option);
+				break;
+			case 3:
+				do {
+					option = dinner.availability();
+				}while(option==1);
+				Common.availableOption(option);
+				break;
+			}
+			
+			
+		}
+
+		else {
 			System.out.println("Choose the correct option");
 		}
 

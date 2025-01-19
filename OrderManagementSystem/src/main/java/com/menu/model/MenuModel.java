@@ -6,6 +6,14 @@ public class MenuModel {
 	private String name;
 	private int price;
 	private String description;
+	private String availability;
+	
+	public String getAvailability() {
+		return availability;
+	}
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
 	public int getId() {
 		return id;
 	}
@@ -45,22 +53,37 @@ public class MenuModel {
 	}
 	
 	
+	public MenuModel(String name, int price, String description,String availability) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.availability = availability;
+	}
+	
 	public MenuModel(String name, int price, String description) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.description = description;
 	}
-	
+	public MenuModel(String name,String availability) {
+		super();
+		this.name = name;
+		this.availability = availability;
+	}
 	public MenuModel(String name) {
 		super();
 		this.name = name;
 	}
+	
 	public MenuModel() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "name=" + name + " - price=" + price + " - description=" + description + "\n";
+		return "name=" + name + " - price=" + price + " - description=" + description
+				+ " - availability=" + availability + "\n" ;
 	}
+	
 }

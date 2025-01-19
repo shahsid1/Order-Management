@@ -14,17 +14,20 @@ import com.menu.model.MenuModel;
 public class MenuImplementation implements MenuDao{
 
 	private Connection con;
-	private String insertBreakfastquerry="insert into breakfast (name,price,description) values (?,?,?)";
-	private String fetchBreakfastquerry="select name,price,description from breakfast";
+	private String insertBreakfastquerry="insert into breakfast (name,price,description,availability) values (?,?,?,'Available')";
+	private String fetchBreakfastquerry="select name,price,description,availability from breakfast";
 	private String deleteBreakfastquerry="delete from breakfast where name=?";
+	private String insertBreakFastAvailabilityquerry="update breakfast set availability=? where name=?";
 	
-	private String insertLunchquerry="insert into lunch (name,price,description) values (?,?,?)";
-	private String fetchLunchquerry="select name,price,description from lunch";
+	private String insertLunchquerry="insert into lunch (name,price,description,availability) values (?,?,?,'Available')";
+	private String fetchLunchquerry="select name,price,description,availability from lunch";
 	private String deleteLunchquerry="delete from lunch where name=?";
+	private String insertLunchAvailabilityquerry="update lunch set availability=? where name=?";
 	
-	private String insertDinnerquerry="insert into dinner (name,price,description) values (?,?,?)";
-	private String fetchDinnerquerry="select name,price,description from dinner";
+	private String insertDinnerquerry="insert into dinner (name,price,description,availability) values (?,?,?,'Available')";
+	private String fetchDinnerquerry="select name,price,description,availability from dinner";
 	private String deleteDinnerquerry="delete from dinner where name=?";
+	private String insertDinnerAvailabilityquerry="update dinner set availability=? where name=?";
 	
 	private PreparedStatement psmt;
 	private int status;
@@ -33,6 +36,10 @@ public class MenuImplementation implements MenuDao{
 	ArrayList<MenuModel> breakfastList = new ArrayList<MenuModel>();
 	ArrayList<MenuModel> lunchList = new ArrayList<MenuModel>();
 	ArrayList<MenuModel> dinnerList = new ArrayList<MenuModel>();
+	
+	ArrayList<MenuModel> breakfastNameList = new ArrayList<MenuModel>();
+	ArrayList<MenuModel> lunchNameList = new ArrayList<MenuModel>();
+	ArrayList<MenuModel> dinnerNameList = new ArrayList<MenuModel>();
 	public MenuImplementation() {
 		con = DatabaseConnection.connect();
 	}
@@ -59,7 +66,7 @@ public class MenuImplementation implements MenuDao{
 			csmt =  con.createStatement();
 			result = csmt.executeQuery(fetchBreakfastquerry);	
 			while(result.next()) {
-				breakfastList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"))) ;
+				breakfastList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"),result.getString("availability"))) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -102,7 +109,7 @@ public class MenuImplementation implements MenuDao{
 			csmt =  con.createStatement();
 			result = csmt.executeQuery(fetchLunchquerry);	
 			while(result.next()) {
-				lunchList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"))) ;
+				lunchList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"),result.getString("availability"))) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -145,7 +152,7 @@ public class MenuImplementation implements MenuDao{
 			csmt =  con.createStatement();
 			result = csmt.executeQuery(fetchDinnerquerry);	
 			while(result.next()) {
-				dinnerList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"))) ;
+				dinnerList.add(new MenuModel( result.getString("name"), result.getInt("price"), result.getString("description"),result.getString("availability"))) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -166,6 +173,59 @@ public class MenuImplementation implements MenuDao{
 		}
 		return status;
 	}
+
+
+	@Override
+	public int insertBreakFastAvailability(MenuModel menuModel) {
+		
+		try {
+			psmt = con.prepareStatement(insertBreakFastAvailabilityquerry);
+			psmt.setString(1, menuModel.getAvailability());
+			psmt.setString(2, menuModel.getName());
+			status = psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+
+	@Override
+	public int insertLunchAvailability(MenuModel menuModel) {
+		try {
+			psmt = con.prepareStatement(insertLunchAvailabilityquerry);
+			psmt.setString(1, menuModel.getAvailability());
+			psmt.setString(2, menuModel.getName());
+			status = psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+		
+	}
+
+
+	@Override
+	public int insertDinnerAvailability(MenuModel menuModel) {
+		
+		try {
+			psmt = con.prepareStatement(insertDinnerAvailabilityquerry);
+			psmt.setString(1, menuModel.getAvailability());
+			psmt.setString(2, menuModel.getName());
+			status = psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+
 	
 	
 	
